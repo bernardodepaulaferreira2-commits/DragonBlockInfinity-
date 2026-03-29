@@ -35,12 +35,18 @@ public class EyeLayer extends FeatureRenderer<AbstractClientPlayerEntity, Player
         if (texture == null) return;
 
         // Sincroniza o modelo com as animações do player
-        eyeModel.setAngles(player, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+        eyeModel.setAngles(player, limbAngle, limbDistance, animationProgress, 0, 0);
         eyeModel.handSwingProgress = getContextModel().handSwingProgress;
         eyeModel.riding = getContextModel().riding;
         eyeModel.child = getContextModel().child;
 
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-        eyeModel.head.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        // Usar RenderLayer.getEntityTranslucent para melhor blending dos olhos
+        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+
+        // Renderiza os olhos com leve transparência para melhor integração
+        matrices.push();
+        matrices.translate(0.0f, -0.125f, 0.01f); // Posicionamento fino na frente do rosto
+        eyeModel.renderHeadOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 0.95f);
+        matrices.pop();
     }
 }

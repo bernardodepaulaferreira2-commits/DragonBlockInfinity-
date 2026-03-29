@@ -3,6 +3,8 @@ package com.bernardo.dbi.client.render;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.entity.LivingEntity;
 
 public class DBIPlayerModel<T extends LivingEntity> extends BipedEntityModel<T> {
@@ -20,16 +22,21 @@ public class DBIPlayerModel<T extends LivingEntity> extends BipedEntityModel<T> 
         ModelData modelData = new ModelData();
         ModelPartData root = modelData.getRoot();
 
-        // HEAD — tamanho e UV padrão
+        // HEAD — tamanho e UV padrão com melhor mapeamento para customizações
         ModelPartData head = root.addChild(EntityModelPartNames.HEAD,
             ModelPartBuilder.create()
-                .uv(0, 0).cuboid(-4, -8, -4, 8, 8, 8, new Dilation(0f)),
+                // Face principal (olhos, nariz, boca)
+                .uv(0, 0).cuboid(-4, -8, -4, 8, 8, 8, new Dilation(0f))
+                // Adicionar partes específicas para melhor mapeamento de texturas
+                .uv(32, 0).cuboid(-4, -8, -4, 8, 8, 0, new Dilation(0.01f)), // Face overlay
             ModelTransform.pivot(0, 0, 0));
 
-        // HAT — com overlay
+        // HAT — com overlay para cabelos e acessórios
         root.addChild(EntityModelPartNames.HAT,
             ModelPartBuilder.create()
-                .uv(32, 0).cuboid(-4, -8, -4, 8, 8, 8, new Dilation(0.5f)),
+                .uv(32, 0).cuboid(-4, -8, -4, 8, 8, 8, new Dilation(0.5f))
+                // Overlay adicional para cabelos
+                .uv(0, 32).cuboid(-4, -8, -4, 8, 8, 0, new Dilation(0.51f)),
             ModelTransform.pivot(0, 0, 0));
 
         // BODY — torso
@@ -63,5 +70,25 @@ public class DBIPlayerModel<T extends LivingEntity> extends BipedEntityModel<T> 
             ModelTransform.pivot(1.9f, 12, 0));
 
         return TexturedModelData.of(modelData, TEX_W, TEX_H);
+    }
+
+    /**
+     * Renderiza apenas a cabeça com melhor controle para texturas de customização
+     */
+    public void renderHeadOnly(MatrixStack matrices, VertexConsumer vertices, int light, int overlay,
+                              float red, float green, float blue, float alpha) {
+        this.head.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    }
+
+    /**
+     * Renderiza o corpo completo com texturas de raça
+     */
+    public void renderBodyOnly(MatrixStack matrices, VertexConsumer vertices, int light, int overlay,
+                              float red, float green, float blue, float alpha) {
+        this.body.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        this.rightArm.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        this.leftArm.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        this.rightLeg.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        this.leftLeg.render(matrices, vertices, light, overlay, red, green, blue, alpha);
     }
 }

@@ -1,6 +1,7 @@
 package com.bernardo.dbi.client.render.layer;
 
 import com.bernardo.dbi.client.render.DBIPlayerModel;
+import com.bernardo.dbi.client.render.RenderUtils;
 import com.bernardo.dbi.player.DBIPlayerData;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -42,10 +43,14 @@ public class HairLayer extends FeatureRenderer<AbstractClientPlayerEntity, Playe
         hairModel.riding = getContextModel().riding;
         hairModel.child = getContextModel().child;
 
-        // RenderLayer.getEntityCutoutNoCull para transparência sem distorção
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-        
-        // Renderiza só o cabelo (head) - evita sobreposição de hat em cima
-        hairModel.head.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        // Usar RenderLayer.getEntityTranslucent para melhor blending com transparência
+        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+
+        // Renderiza só o cabelo (head) com melhor posicionamento
+        matrices.push();
+        matrices.translate(0.0f, -0.1f, 0.0f); // Posição mais precisa
+        matrices.scale(0.95f, 0.95f, 0.95f); // Diminuir um pouco
+        hairModel.renderHeadOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        matrices.pop();
     }
 }

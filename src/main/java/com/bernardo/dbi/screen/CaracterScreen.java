@@ -1,6 +1,8 @@
 package com.bernardo.dbi.screen;
 
 import com.bernardo.dbi.player.DBIPlayerData;
+import com.bernardo.dbi.screen.widget.BtnArrowLeftSmall;
+import com.bernardo.dbi.screen.widget.BtnArrowRightSmall;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -20,7 +22,6 @@ public class CaracterScreen extends Screen {
 
     // Cores para melhor visual
     private static final int COLOR_TITLE = 0xFFD700;        // Ouro
-    private static final int COLOR_LABEL = 0xE8E8E8;        // Branco off
     private static final int COLOR_VALUE = 0xFFFF00;        // Amarelo brilhante
 
     private int guiLeft, guiTop, menuW, menuH;
@@ -29,12 +30,8 @@ public class CaracterScreen extends Screen {
         "race", "age", "hair", "hair_color", "eyes", "nose", "mouth"
     };
 
-    private static final String[] OPTION_LABELS = {
-        "Raça", "Idade", "Cabelo", "Cor do Cabelo", "Olhos", "Nariz", "Boca"
-    };
-
-    private final net.minecraft.client.gui.widget.ButtonWidget[] btnLeft  = new net.minecraft.client.gui.widget.ButtonWidget[OPTIONS.length];
-    private final net.minecraft.client.gui.widget.ButtonWidget[] btnRight = new net.minecraft.client.gui.widget.ButtonWidget[OPTIONS.length];
+    private final BtnArrowLeftSmall[] btnLeft  = new BtnArrowLeftSmall[OPTIONS.length];
+    private final BtnArrowRightSmall[] btnRight = new BtnArrowRightSmall[OPTIONS.length];
 
     public CaracterScreen() {
         super(Text.literal("Criação de Personagem"));
@@ -62,22 +59,23 @@ public class CaracterScreen extends Screen {
         int panelW  = (int)(menuW * 0.42f);
         int startY  = guiTop  + (int)(menuH * 0.12f);
         int spacing = (int)((menuH * 0.75f) / OPTIONS.length);
-        int btnW    = Math.max(12, (int)(menuH * 0.08f));
-        int btnH    = Math.max(12, (int)(menuH * 0.08f));
-        int lx      = panelX + 4;
-        int rx      = panelX + panelW - btnW - 4;
+        float btnScale = Math.max(0.8f, Math.min(1.2f, ratio * 0.9f));
 
         for (int i = 0; i < OPTIONS.length; i++) {
             final int idx = i;
-            int rowY = startY + i * spacing + (spacing - btnH) / 2;
+            int rowY = startY + i * spacing + (int)((spacing - (int)(20 * btnScale)) / 2);
 
-            btnLeft[i] = net.minecraft.client.gui.widget.ButtonWidget.builder(
-                Text.literal("◀"), b -> cycleOption(OPTIONS[idx], -1)
-            ).dimensions(lx, rowY, btnW, btnH).build();
+            btnLeft[i] = new BtnArrowLeftSmall();
+            btnRight[i] = new BtnArrowRightSmall();
 
-            btnRight[i] = net.minecraft.client.gui.widget.ButtonWidget.builder(
-                Text.literal("▶"), b -> cycleOption(OPTIONS[idx], +1)
-            ).dimensions(rx, rowY, btnW, btnH).build();
+            btnLeft[i].setOnPress(() -> cycleOption(OPTIONS[idx], -1));
+            btnRight[i].setOnPress(() -> cycleOption(OPTIONS[idx], +1));
+
+            int lx = panelX + 4;
+            int rx = panelX + panelW - (int)(20 * btnScale) - 4;
+
+            btnLeft[i].place(lx, rowY, btnScale);
+            btnRight[i].place(rx, rowY, btnScale);
 
             this.addDrawableChild(btnLeft[i]);
             this.addDrawableChild(btnRight[i]);
@@ -143,9 +141,6 @@ public class CaracterScreen extends Screen {
     private void renderOptionsPanel(DrawContext context, PlayerEntity player) {
         if (player == null) return;
 
-        // Sugestão de configurações automáticas (usadas por padrão)
-        context.drawTextWithShadow(this.textRenderer, Text.literal("Recomendações: use os defaults e ajuste conforme quiser"), guiLeft + 10, guiTop + 30, COLOR_VALUE);
-
         int panelX  = guiLeft + (int)(menuW * 0.55f);
         int panelW  = (int)(menuW * 0.42f);
         int startY  = guiTop  + (int)(menuH * 0.12f);
@@ -155,22 +150,13 @@ public class CaracterScreen extends Screen {
             (this.width  * 0.75f) / IMG_W,
             (this.height * 0.75f) / IMG_H
         );
-        float labelScale = Math.max(0.7f, Math.min(0.85f, ratio * 0.9f));
-        float valueScale = Math.max(0.75f, Math.min(1.0f, ratio * 1.15f));
+        float valueScale = ratio;
 
         String race = DBIPlayerData.getRace(player).name();
 
         for (int i = 0; i < OPTIONS.length; i++) {
             int rowY = startY + i * spacing;
-            int labelY = rowY + 4;
             int valueY = rowY + 18;
-
-            // Rótulo da opção
-            context.getMatrices().push();
-            context.getMatrices().translate(panelX + 8, labelY, 0);
-            context.getMatrices().scale(labelScale, labelScale, 1f);
-            context.drawTextWithShadow(this.textRenderer, OPTION_LABELS[i], 0, 0, COLOR_LABEL);
-            context.getMatrices().pop();
 
             // Valor atual
             List<String> opts = AppearanceManager.getDisplayOptionsFor(OPTIONS[i], race);

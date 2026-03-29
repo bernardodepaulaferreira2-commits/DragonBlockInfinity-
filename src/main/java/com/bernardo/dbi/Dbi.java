@@ -1,10 +1,13 @@
 package com.bernardo.dbi;
 
+import com.bernardo.dbi.command.SpawnDinoCommand;
 import com.bernardo.dbi.player.DBIPlayerEvents;
 import com.bernardo.dbi.registry.DBIBlocks;
 import com.bernardo.dbi.registry.DBICreativeTab;
+import com.bernardo.dbi.registry.DBIEntities;
 import com.bernardo.dbi.registry.DBIItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 public class Dbi implements ModInitializer {
 
@@ -15,6 +18,11 @@ public class Dbi implements ModInitializer {
         DBIBlocks.initialize();
         DBIItems.initialize();
         DBICreativeTab.initialize();
+        DBIEntities.initialize();
         DBIPlayerEvents.initialize();
+
+        // Registrar comandos
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
+                SpawnDinoCommand.register(dispatcher, registryAccess));
     }
 }

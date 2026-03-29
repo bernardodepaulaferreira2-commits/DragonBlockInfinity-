@@ -9,5 +9,10 @@
   "block.dragonblockinfinity.block_dragonball4": "Dragon Ball ★★★★",
   "block.dragonblockinfinity.block_dragonball5": "Dragon Ball ★★★★★",
   "block.dragonblockinfinity.block_dragonball6": "Dragon Ball ★★★★★★",
-  "block.dragonblockinfinity.block_dragonball7": "Dragon Ball ★★★★★★★"
+  "block.dragonblockinfinity.block_dragonball7": "Dragon Ball ★★★★★★★",
+  "block.dragonblockinfinity.namek_grass": "Namek Grass",
+  "block.dragonblockinfinity.namek_dirty": "Namek Dirt",
+  "block.dragonblockinfinity.dirty_stone": "Dirty Stone",
+  "block.dragonblockinfinity.dirty_stone_cobblestone": "Dirty Cobblestone",
+  "itemGroup.dbi_tab": "Dragon Block Infinity"
 }

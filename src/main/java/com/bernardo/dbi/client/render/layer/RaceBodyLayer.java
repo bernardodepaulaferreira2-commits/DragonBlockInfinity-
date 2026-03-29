@@ -38,6 +38,7 @@ public class RaceBodyLayer extends FeatureRenderer<AbstractClientPlayerEntity, P
                        float headYaw, float headPitch) {
 
         Race race = DBIPlayerData.getRace(player);
+        if (race == null) return;
 
         Identifier texture = switch (race) {
             case NAMEKIAN    -> RACE_NAMEKIAN;
@@ -51,7 +52,10 @@ public class RaceBodyLayer extends FeatureRenderer<AbstractClientPlayerEntity, P
         raceModel.riding             = getContextModel().riding;
         raceModel.child              = getContextModel().child;
 
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-        raceModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        // Usar RenderLayer.getEntityTranslucent para melhor blending das texturas de raça
+        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+
+        // Renderiza o corpo da raça com transparência adequada
+        raceModel.renderBodyOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 0.95f);
     }
 }

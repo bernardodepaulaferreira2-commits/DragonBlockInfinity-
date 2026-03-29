@@ -18,6 +18,7 @@ public abstract class IconButton extends ClickableWidget {
 
     private float scale = 1.0f;
     private boolean pressed = false;
+    private Runnable onPress = null;
 
     public IconButton(
         int wNormal, int hNormal,
@@ -62,7 +63,14 @@ public abstract class IconButton extends ClickableWidget {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         pressed = false;
+        if (this.isHovered() && onPress != null) {
+            onPress.run();
+        }
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    public void setOnPress(Runnable onPress) {
+        this.onPress = onPress;
     }
 
     @Override

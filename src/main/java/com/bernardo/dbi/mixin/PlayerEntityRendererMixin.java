@@ -33,11 +33,12 @@ public abstract class PlayerEntityRendererMixin
     @Inject(method = "<init>", at = @At("TAIL"))
     private void dbi_addLayers(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         var context = (net.minecraft.client.render.entity.feature.FeatureRendererContext) this;
-        this.addFeature(new RaceBodyLayer(context));
-        this.addFeature(new HairLayer(context));
-        this.addFeature(new EyeLayer(context));
-        this.addFeature(new NoseLayer(context));
-        this.addFeature(new MouthLayer(context));
+        // Ordem de renderização: de trás para frente (background para foreground)
+        this.addFeature(new RaceBodyLayer(context));  // Base/corpo (atrás de tudo)
+        this.addFeature(new HairLayer(context));      // Cabelo
+        this.addFeature(new NoseLayer(context));      // Nariz
+        this.addFeature(new EyeLayer(context));       // Olhos
+        this.addFeature(new MouthLayer(context));     // Boca (na frente)
     }
 
     @Inject(method = "getTexture", at = @At("HEAD"), cancellable = true)

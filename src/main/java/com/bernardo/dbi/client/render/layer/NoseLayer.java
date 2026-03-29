@@ -34,12 +34,18 @@ public class NoseLayer extends FeatureRenderer<AbstractClientPlayerEntity, Playe
         if (texture == null) return;
 
         // Sincroniza o modelo com as animações do player
-        noseModel.setAngles(player, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+        noseModel.setAngles(player, limbAngle, limbDistance, animationProgress, 0, 0);
         noseModel.handSwingProgress = getContextModel().handSwingProgress;
         noseModel.riding = getContextModel().riding;
         noseModel.child = getContextModel().child;
 
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-        noseModel.head.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        // Usar RenderLayer.getEntityTranslucent para melhor blending do nariz
+        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+
+        // Renderiza o nariz com leve transparência
+        matrices.push();
+        matrices.translate(0.0f, -0.0625f, 0.02f); // Posicionamento fino na frente do rosto
+        noseModel.renderHeadOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 0.9f);
+        matrices.pop();
     }
 }

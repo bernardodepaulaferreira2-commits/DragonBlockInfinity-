@@ -35,7 +35,7 @@ public class DragonBallBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // Orient the dragon ball based on player yaw on placement (any horizontal direction)
+        // Orienta a bola de dragão baseado no ângulo do jogador ao colocar (qualquer direção horizontal)
         Direction facing = Direction.fromRotation(ctx.getPlayerYaw());
         return getDefaultState().with(FACING, facing);
     }

@@ -34,12 +34,18 @@ public class MouthLayer extends FeatureRenderer<AbstractClientPlayerEntity, Play
         if (texture == null) return;
 
         // Sincroniza o modelo com as animações do player
-        mouthModel.setAngles(player, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+        mouthModel.setAngles(player, limbAngle, limbDistance, animationProgress, 0, 0);
         mouthModel.handSwingProgress = getContextModel().handSwingProgress;
         mouthModel.riding = getContextModel().riding;
         mouthModel.child = getContextModel().child;
 
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-        mouthModel.head.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        // Usar RenderLayer.getEntityTranslucent para melhor blending da boca
+        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+
+        // Renderiza a boca com leve transparência
+        matrices.push();
+        matrices.translate(0.0f, 0.0f, 0.025f); // Posicionamento fino na frente do rosto
+        mouthModel.renderHeadOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 0.85f);
+        matrices.pop();
     }
 }

@@ -14,5 +14,12 @@
   "block.dragonblockinfinity.namek_dirty": "Terra de Namek",
   "block.dragonblockinfinity.dirty_stone": "Pedra Suja",
   "block.dragonblockinfinity.dirty_stone_cobblestone": "Pedregulho Sujo",
+  "item.dragonblockinfinity.senzu": "Senzu",
+  "item.dragonblockinfinity.dino_meat": "Carne de Dinossauro",
+  "item.dragonblockinfinity.dino_meat_cooked": "Carne de Dinossauro Assada",
+  "item.dragonblockinfinity.nimbus": "Nuvem Voadora",
+  "item.dragonblockinfinity.radar": "Radar dasEsferas",
+  "item.dragonblockinfinity.peso": "Peso",
+  "item.dragonblockinfinity.scouter": "Scouter",
   "itemGroup.dbi_tab": "Dragon Block Infinity"
 }
