@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "dragonblockinfinity:block/block_dragonblock4" },
+    "facing=south": { "model": "dragonblockinfinity:block/block_dragonblock4", "y": 180 },
+    "facing=west":  { "model": "dragonblockinfinity:block/block_dragonblock4", "y": 270 },
+    "facing=east":  { "model": "dragonblockinfinity:block/block_dragonblock4", "y": 90 }
+  }
+}

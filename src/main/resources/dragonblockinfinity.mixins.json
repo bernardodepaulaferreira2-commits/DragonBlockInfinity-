@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "package": "com.bernardo.dbi.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "PlayerEntityMixin",
+        "PlayerEntitySizeMixin"
+    ],
+    "client": [
+        "PlayerEntityRendererMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
