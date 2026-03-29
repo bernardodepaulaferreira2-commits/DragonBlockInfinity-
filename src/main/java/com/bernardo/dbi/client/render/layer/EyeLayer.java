@@ -45,7 +45,7 @@ public class EyeLayer extends FeatureRenderer<AbstractClientPlayerEntity, Player
 
         // Renderiza os olhos com leve transparência para melhor integração
         matrices.push();
-        matrices.translate(0.0f, -0.125f, 0.01f); // Posicionamento fino na frente do rosto
+        matrices.translate(0.0f, 0.0f, 0.1f); // Posicionamento fino na frente do rosto
         eyeModel.renderHeadOnly(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 0.95f);
         matrices.pop();
     }

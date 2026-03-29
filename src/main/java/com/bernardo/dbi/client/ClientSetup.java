@@ -1,7 +1,6 @@
 package com.bernardo.dbi.client;
 
 import com.bernardo.dbi.client.model.Dinossauro1Model;
-import com.bernardo.dbi.client.model.VelociraptorModel;
 import com.bernardo.dbi.client.render.Dinossauro1Renderer;
 import com.bernardo.dbi.client.render.VelociraptorRenderer;
 import com.bernardo.dbi.entity.Dinossauro1Entity;
@@ -21,10 +20,6 @@ public class ClientSetup implements ClientModInitializer {
         KeyBindings.initialize();
 
         // ── Registra os layers dos modelos de entidade ────────────────────────
-        EntityModelLayerRegistry.registerModelLayer(
-            VelociraptorModel.LAYER,
-            VelociraptorModel::getTexturedModelData
-        );
         EntityModelLayerRegistry.registerModelLayer(
             Dinossauro1Model.LAYER,
             Dinossauro1Model::getTexturedModelData

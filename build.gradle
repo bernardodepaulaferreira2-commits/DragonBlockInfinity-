@@ -25,6 +25,10 @@ repositories {
 
 loom {
 
+    decompilerOptions.named("cfr") {
+        options.put("threads", "1")
+    }
+
 	mods {
 		"modid" {
 			sourceSet sourceSets.main
