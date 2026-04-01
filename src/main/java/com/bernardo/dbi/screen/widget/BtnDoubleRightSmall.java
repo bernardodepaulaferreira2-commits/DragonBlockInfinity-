@@ -1,7 +1,7 @@
 package com.bernardo.dbi.screen.widget;
 
-public class ScrollBarTrack extends IconButton {
-    public ScrollBarTrack() {
+public class BtnDoubleRightSmall extends IconButton {
+    public BtnDoubleRightSmall() {
         super(
             20, 20,
             0, 0,

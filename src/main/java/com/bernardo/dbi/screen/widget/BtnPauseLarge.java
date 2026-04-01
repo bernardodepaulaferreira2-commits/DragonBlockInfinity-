@@ -1,11 +1,12 @@
 package com.bernardo.dbi.screen.widget;
-public class BtnPause extends IconButton {
-    public BtnPause() {
+
+public class BtnPauseLarge extends IconButton {
+    public BtnPauseLarge() {
         super(
             30, 30,
-            350, 0,
+            0, 0,
             30, 30,
-            350, 30
+            0, 0
         );
     }
 }

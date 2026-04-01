@@ -1,11 +1,12 @@
 package com.bernardo.dbi.screen.widget;
-public class BtnCloseX extends IconButton {
-    public BtnCloseX() {
+
+public class BtnPlayLarge extends IconButton {
+    public BtnPlayLarge() {
         super(
             30, 30,
-            260, 0,
+            0, 0,
             30, 30,
-            260, 30
+            0, 0
         );
     }
 }

@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import com.bernardo.dbi.screen.widget.BtnArrowRightSmall;
 import com.bernardo.dbi.screen.widget.BtnArrowLeftSmall;
 import com.bernardo.dbi.screen.widget.IconButton;
-import com.bernardo.dbi.screen.widget.BtnCloseX;
+import com.bernardo.dbi.screen.widget.BtnCloseXLarge;
 
 public class CaracterScreen extends Screen {
 
@@ -36,16 +36,16 @@ public class CaracterScreen extends Screen {
         guiTop = (this.height - menuH) / 2;
 
         // Adicionar botão com textura
-        BtnCloseX btnCloseX = new BtnCloseX();
+        BtnCloseXLarge btnCloseXLarge = new BtnCloseXLarge();
         int btnX = guiLeft + (int)(menuW * 0.8f); // Posição relativa ao menu
         int btnY = guiTop + (int)(menuH * 0.9f);
-        float btnScale = ratio * 0.5f; // Escala menor para o botão
-        btnCloseX.place(btnX, btnY, btnScale);
-        btnCloseX.setOnPress(() -> {
+        
+        btnCloseXLarge.place(btnX, btnY, btnScale);
+        btnCloseXLarge.setOnPress(() -> {
             // Ação do botão, por exemplo, fechar a tela
             this.close();
         });
-        this.addDrawableChild(btnCloseX);
+        this.addDrawableChild(btnCloseXLarge);
        
 
     }
